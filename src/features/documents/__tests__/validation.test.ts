@@ -20,7 +20,7 @@ describe("validateDocumentForm", () => {
     expect(result.valid).toBe(true);
     expect(result.input).toEqual({
       documentType: "passport",
-      documentName: "John Smith",
+      documentName: "Juan Rojas",
       expirationDate: "2030-11-15",
       notes: "Renew at the consulate",
       reminderDays: [90, 30, 7, 1],
