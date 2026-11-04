@@ -26,6 +26,10 @@ Tip: to test reminders quickly, open **Settings → Notifications**, set **Remin
 
 - [ ] Empty dashboard shows the empty state and **Add your first document**.
 - [ ] Add a document in under 30 seconds: type → name → date → Save.
+- [ ] In a development build, scan a clear document: type, name and expiration date are suggested; correct them, choose reminders and add notes before saving.
+- [ ] Cancel a scan without changing form values; verify scanned images are not saved or uploaded.
+- [ ] In a development build with on-device speech available (Android 13+ with the offline language installed; matching app/system language on iOS), dictate a document request: confirm suggested fields are editable and reminders/notes are unchanged before saving.
+- [ ] Deny microphone permission or remove the offline speech language; confirm a clear message appears and manual entry still works.
 - [ ] Validation: saving an empty form shows errors on type, name and date.
 - [ ] Typing `AB1234567` or `123-45-6789` in name/notes shows the privacy warning (saving is still allowed).
 - [ ] Choosing a past date shows the "already passed" hint and the document appears as **Expired**.

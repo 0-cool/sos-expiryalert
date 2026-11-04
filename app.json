@@ -13,6 +13,7 @@
     ],
     "backgroundColor": "#F5F7FA",
     "ios": {
+      "deploymentTarget": "15.5",
       "bundleIdentifier": "com.yourcompany.sosexpiryalert",
       "buildNumber": "1",
       "supportsTablet": false,
@@ -20,7 +21,13 @@
         "usesNonExemptEncryption": false
       },
       "infoPlist": {
-        "CFBundleAllowMixedLocalizations": true
+        "CFBundleAllowMixedLocalizations": true,
+        "CFBundleLocalizations": [
+          "en",
+          "es",
+          "pt",
+          "fr"
+        ]
       },
       "privacyManifests": {
         "NSPrivacyAccessedAPITypes": [
@@ -44,12 +51,15 @@
       },
       "predictiveBackGestureEnabled": false,
       "blockedPermissions": [
-        "android.permission.RECORD_AUDIO",
         "android.permission.SYSTEM_ALERT_WINDOW",
         "android.permission.SCHEDULE_EXACT_ALARM",
         "android.permission.USE_EXACT_ALARM",
         "android.permission.READ_EXTERNAL_STORAGE",
         "android.permission.WRITE_EXTERNAL_STORAGE"
+      ],
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
       ]
     },
     "plugins": [
@@ -72,6 +82,15 @@
         }
       ],
       [
+        "expo-camera",
+        {
+          "cameraPermission": "Permitir que SOS – ExpiryAlert use la cámara para leer el documento en el dispositivo. La imagen se elimina después del escaneo.",
+          "microphonePermission": false,
+          "recordAudioAndroid": false,
+          "barcodeScannerEnabled": false
+        }
+      ],
+      [
         "expo-notifications",
         {
           "icon": "./assets/notification-icon.png",
@@ -89,7 +108,24 @@
             "fr"
           ]
         }
+      ],
+      [
+        "expo-speech-recognition",
+        {
+          "microphonePermission": "SOS – ExpiryAlert usa el micrófono solo cuando dictas un documento. El audio se procesa en el dispositivo y no se sube.",
+          "speechRecognitionPermission": "SOS – ExpiryAlert usa el reconocimiento de voz en el dispositivo para completar los datos de un documento."
+        }
       ]
-    ]
+    ],
+    "extra": {
+      "router": {
+        "asyncRoutes": {
+          "web": true
+        }
+      },
+      "eas": {
+        "projectId": "d8ba289e-8fd0-4c55-9c3a-cb77f44bf3c1"
+      }
+    }
   }
 }

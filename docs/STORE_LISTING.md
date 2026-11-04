@@ -26,7 +26,7 @@ Drafts and checklists to prepare the store pages. Review every item against the 
 > • Search, filter and sort all your documents.
 > • Available in English, Spanish, Portuguese and French, with light and dark mode.
 >
-> Private by design: we never ask for document numbers, scans or photos. We only store the information needed to remind you about expiration dates.
+> Private by design: scan or dictate a document to suggest its type, name and expiration date. Text and speech recognition happen on your device; scan images are deleted, audio is not uploaded, and neither is saved. We never store document numbers or photos.
 
 ## Descripción (español)
 
@@ -40,7 +40,7 @@ Drafts and checklists to prepare the store pages. Review every item against the 
 > • Busca, filtra y ordena todos tus documentos.
 > • En español, inglés, portugués y francés, con modo claro y oscuro.
 >
-> Privado desde el diseño: nunca te pedimos números de documento, escaneos ni fotos. Solo guardamos la información necesaria para recordarte las fechas de vencimiento.
+> Privado desde el diseño: escanea o dicta un documento para sugerir su tipo, nombre y fecha de vencimiento. El reconocimiento de texto y voz se hace en tu dispositivo; las imágenes se eliminan, el audio no se sube y ninguno se guarda. No guardamos números de documento ni fotos.
 
 Keywords (iOS, ≤ 100 chars, draft): `expiration,reminder,passport,license,visa,insurance,documents,renewal,expiry,alert`
 
@@ -67,7 +67,7 @@ Data the app handles:
 | Document type, name/owner name, expiration date, notes, reminder settings | Supabase database | App functionality (reminders) | Yes | No |
 | Preferences (language, theme, reminder time) | Device only | App functionality | No (not collected) | No |
 
-The app has **no analytics, no advertising SDKs, no location, no contacts, no photos/camera, no payment data**.
+The app has **no analytics, no advertising SDKs, no location, no contacts, no photo-library access, no payment data**. The camera and microphone are used only when the user explicitly starts a scan or voice dictation. Temporary scan images and audio are processed on-device and not uploaded or saved to the account.
 
 **Apple – App Privacy labels:** Contact Info → Email Address (App Functionality, linked, not used for tracking); Identifiers → User ID (App Functionality, linked); User Content → Other User Content (App Functionality, linked). Data is not used for tracking.
 

@@ -47,7 +47,7 @@ create table if not exists public.documents (
 comment on table public.documents is
   'Documents tracked for expiration reminders. Never store identification numbers or images here.';
 comment on column public.documents.document_name is
-  'Friendly name or owner name chosen by the user (e.g. "Juan Rojas"). Not a document number.';
+  'Friendly name or owner name chosen by the user (e.g. "John Smith"). Not a document number.';
 comment on column public.documents.reminder_days is
   'Days before expiration_date when a local reminder should fire.';
 

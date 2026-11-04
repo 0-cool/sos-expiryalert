@@ -43,6 +43,7 @@ export default function NewDocumentScreen() {
         submitLabel={t('documentForm.save')}
         reminderTimeLabel={formatTime(preferences.reminderTime.hour, preferences.reminderTime.minute)}
         isOffline={isOffline}
+        enableScan
         onDirtyChange={setDirty}
         onSubmit={async (input) => {
           await createDocument(input);

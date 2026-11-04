@@ -4,7 +4,7 @@
 
 A privacy-first mobile app for iOS and Android that reminds people before their important documents expire — passports, licenses, visas, insurance, certifications and more. Add a document in under 30 seconds and get local notifications 90, 30, 7 and 1 day before it expires (or on your own schedule).
 
-The app intentionally stores **only** a document type, a name you choose, the expiration date and optional notes. It never asks for document numbers, scans or photos.
+The app intentionally stores **only** a document type, a name you choose, the expiration date and optional notes. It never asks for document numbers or stores scan images. Optional scans are read on-device and deleted after recognition.
 
 > Built with Expo SDK 58 · React Native 0.88 · TypeScript (strict) · Expo Router · Supabase · Expo Notifications · i18next (EN/ES/PT/FR).
 
@@ -17,7 +17,7 @@ The app intentionally stores **only** a document type, a name you choose, the ex
 3. En Supabase → **Authentication → Email Templates**, agrega `{{ .Token }}` a las plantillas *Confirm signup* y *Reset password* (ver [Supabase setup](#3-supabase-setup)).
 4. Copia `.env.example` como `.env` y pega la URL del proyecto y la clave *publishable*.
 5. En la carpeta del proyecto: `npm install` y luego `npx expo start`.
-6. Escanea el código QR: con la cámara en iPhone, o desde Expo Go en Android.
+6. Escanea el código QR: con la cámara en iPhone, o desde Expo Go en Android. Para probar el escáner de documentos, crea e instala el development build descrito en la sección 2.
 
 Para publicar en las tiendas, sigue [Production builds](#8-production-builds-eas) y [Before submitting](#13-remaining-tasks-before-app-store-and-google-play-submission).
 
@@ -50,14 +50,14 @@ Para publicar en las tiendas, sigue [Production builds](#8-production-builds-eas
 | Authentication | Sign up, log in, email verification with a one-time code, password recovery with a one-time code, logout, account deletion (Supabase Auth). |
 | Dashboard | Total documents, animated status breakdown (active / expiring soon / expired), expired alert, upcoming expirations, prominent **Add document** action, empty state, offline banner, "reminders are off" banner. |
 | Documents | Search (accent-insensitive, matches translated type names), status filters with counts, sort by expiration date, swipe-to-delete with confirmation, pull to refresh. |
-| Add / edit | Type picker (one tap), name, native date picker, reminder chips, optional notes, inline validation, privacy guard that warns if text looks like an ID number, unsaved-changes guard. |
+| Add / edit | Type picker (one tap), name, native date picker, reminder chips, optional notes, inline validation, privacy guard that warns if text looks like an ID number, unsaved-changes guard. On-device scan or voice dictation suggests the type, name and expiration date when adding a document; temporary scan images are deleted and speech is not uploaded. |
 | Details | Days remaining, status, expiration date, reminder schedule with dates, notes, edit, delete, configure reminders. |
 | Notifications | Local notifications (no push server), default 90/30/7/1 days, per-document custom reminders, configurable time of day, "hide details on lock screen" option, test notification, tap to open the document. |
 | Settings | Language (system / EN / ES / PT / FR), theme (system / light / dark), notification preferences, privacy information, account management, delete account, logout. |
 | Offline | The last loaded documents are cached on the device; the app opens and reminders keep working without a connection. Changes require a connection and say so clearly. |
 | Quality | TypeScript strict, ESLint, 150+ unit/component tests (Jest), 22 database tests for RLS and constraints on a real PostgreSQL (PGlite). |
 
-Not included on purpose (MVP scope): document scanning/OCR, photos, push notifications from a server, family sharing, paywall. The architecture leaves room for subscriptions (see `src/features/plans/plans.ts`).
+Not included on purpose (MVP scope): saved document photos, push notifications from a server, family sharing, paywall. The architecture leaves room for subscriptions (see `src/features/plans/plans.ts`).
 
 ## 2. Getting started
 
@@ -77,7 +77,9 @@ cp .env.example .env      # Windows (PowerShell): Copy-Item .env.example .env
 npx expo start
 ```
 
-> The project uses only modules bundled in **Expo Go**, so you don't need Xcode or Android Studio to try it on a real phone.
+> Most of the project uses modules bundled in **Expo Go**, so you don't need Xcode or Android Studio to try it on a real phone.
+
+> **Document scanning and voice input:** these native features are not available in Expo Go. Scanning requires iOS 15.5 or later. Voice recognition stays on-device; Android requires Android 13+ and a downloaded offline language, while on iOS the app language must match the phone's primary language. Build and install a development client for the platform you want to test (`npx eas-cli@latest build --profile development --platform android` or `npx eas-cli@latest build --profile development --platform ios`), then start Metro with `npx expo start --dev-client`. Scanned pages are temporary and deleted after recognition.
 
 ### Useful scripts
 

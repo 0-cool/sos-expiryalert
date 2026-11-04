@@ -17,11 +17,15 @@ We only collect the information needed to provide reminders:
 - **Account information:** your email address and a password (stored securely by our authentication provider; we never see your password in plain text).
 - **Document information you enter:** the document type (for example "Passport"), a name you choose (for example the owner's name), the expiration date, optional notes, and your reminder preferences.
 
-**We do not ask for or store** passport numbers, ID numbers, license numbers, visa numbers, social security numbers, credit card numbers, or scans or photos of your documents. Please do not type identification numbers in names or notes.
+**We do not ask for or store** passport numbers, ID numbers, license numbers, visa numbers, social security numbers, or credit card numbers. We do not retain scan images or photos. Please do not type identification numbers in names or notes.
+
+If you choose **Scan document**, the app uses the camera/system document scanner to capture pages and performs text recognition on your device. The temporary scan is deleted after recognition. It is not uploaded or saved with your account. The suggested document type, name and expiration date are shown for you to review; only the fields you save are stored as document information.
+
+If you choose **Dictate document**, the operating system's speech recognizer processes your speech on-device. Audio and the unedited transcript are not uploaded or saved by the app. The suggested document type, name and expiration date are shown for you to review; only the fields you save are stored as document information. On-device recognition and a downloaded offline language must be supported by your device.
 
 **Stored only on your device (not sent to us):** language, theme and reminder-time preferences, and a cached copy of your document list so the app works offline.
 
-We do not use analytics, advertising or tracking technologies, and we do not access your location, contacts, camera or photos.
+We do not use analytics, advertising or tracking technologies, and we do not access your location or contacts. The camera is accessed only when you choose to scan a document; the microphone is accessed only when you choose to dictate. We do not access your photo library.
 
 ## 3. How we use information
 
