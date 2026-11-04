@@ -87,14 +87,14 @@ docs/               TESTING.md (checklist en dispositivo), STORE_LISTING.md, PRI
 
 ## Reglas del proyecto (obligatorias)
 
-1. **Privacidad.** Nunca agregues campos, columnas ni funciones para números de documento, de pasaporte, de identidad o de tarjeta, ni fotos o escaneos. La tabla solo tiene `document_type`, `document_name`, `expiration_date`, `notes` y `reminder_days`. Un test de BD verifica la lista exacta de columnas.
+1. **Privacidad.** Nunca agregues campos, columnas ni funciones para números de documento, de pasaporte, de identidad o de tarjeta, ni para fotos, imágenes de escaneo o audio. El escaneo y el dictado son opcionales y se procesan en el dispositivo: las imágenes temporales, el audio y el texto bruto reconocido no se guardan ni se suben. Solo se persisten los campos que la persona revise y guarde: tipo, nombre, fecha de vencimiento, notas y recordatorios. Un test de BD verifica la lista exacta de columnas.
 2. **Cero textos en duro.** Todo texto visible va en `src/i18n/locales/en.ts` (fuente de verdad) y en `es.ts`, `pt.ts` y `fr.ts`.
    - Las claves de `t()` están tipadas: una clave inexistente es un error de TypeScript.
    - Los tests exigen las mismas claves, las mismas variables `{{...}}` y las formas plurales en los 4 idiomas.
    - Para `count = 0` se usa el sufijo `_zero`.
 3. **Lógica pura en `src/features`** (sin React ni módulos nativos donde sea posible) y con tests. Las pantallas solo componen.
 4. **Solo iOS y Android.** `app.json` tiene `platforms: ["ios", "android"]`. No agregues `react-native-web`, Next.js ni WebViews.
-5. **Compatibilidad con Expo Go.** Hoy todo corre en Expo Go. Si una librería nueva necesita código nativo fuera de Expo Go, avísale a Juan: obliga a usar un _development build_.
+5. **Compatibilidad con Expo Go.** La app funciona en Expo Go, excepto el escaneo de documentos y el dictado, que requieren un _development build_ por sus módulos nativos.
 6. **Seguridad.** En la app solo va la clave publishable/anon (`EXPO_PUBLIC_SUPABASE_URL`, `EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY`). Nunca la `service_role` ni `sb_secret_...` (`src/lib/env.ts` las rechaza). Nunca commitees `.env`.
 7. **Cambios de base de datos.** Crea una migración nueva en `supabase/migrations/` (no edites la ya aplicada) y luego:
    - sincroniza las restricciones con `DOCUMENT_TYPES` (`src/features/documents/types.ts`) y con `REMINDER_DAY_OPTIONS` (`src/features/reminders/reminderOptions.ts`);
