@@ -1,0 +1,7 @@
+{
+  "ios": {
+    "NSCameraUsageDescription": "SOS – ExpiryAlert uses the camera to scan documents on-device. Scanned images are deleted and never uploaded.",
+    "NSMicrophoneUsageDescription": "SOS – ExpiryAlert uses the microphone only when you dictate a document. Audio is processed on-device and never uploaded.",
+    "NSSpeechRecognitionUsageDescription": "SOS – ExpiryAlert uses on-device speech recognition to fill in document details. Your speech is never uploaded."
+  }
+}

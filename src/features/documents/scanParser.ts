@@ -12,7 +12,7 @@ const TYPE_PATTERNS: readonly [DocumentType, RegExp][] = [
   ['passport', /\b(passport|pasaporte|passaporte|passeport)\b/],
   [
     'drivers_license',
-    /\b(driver.?s license|driving license|licencia de conducir|carnet de conducir|permiso de conducir|carteira de habilitacao|carteira de motorista|carta de conducao|permis de conduire)\b/,
+    /\b(driver.?s license|driver license|driving license|licencia de conducir|carnet de conducir|permiso de conducir|carteira de habilitacao|carteira de motorista|carta de conducao|permis de conduire)\b/,
   ],
   [
     'national_id',
@@ -124,7 +124,7 @@ function toISODate(year: number, month: number, day: number): ISODate | null {
   return isValidISODate(value) ? value : null;
 }
 
-export function parseDate(value: string): ISODate | null {
+export function parseDate(value: string, order: 'DMY' | 'MDY' = 'DMY'): ISODate | null {
   const iso = /\b((?:19|20|21|22)\d{2})[-/.](\d{1,2})[-/.](\d{1,2})\b/.exec(value);
   if (iso?.[1] && iso[2] && iso[3]) return toISODate(Number(iso[1]), Number(iso[2]), Number(iso[3]));
 
@@ -133,8 +133,8 @@ export function parseDate(value: string): ISODate | null {
     const first = Number(numeric[1]);
     const second = Number(numeric[2]);
     const year = parseYear(numeric[3]);
-    const month = first > 12 ? second : second > 12 ? first : second;
-    const day = first > 12 ? first : second > 12 ? second : first;
+    const month = first > 12 ? second : second > 12 || order === 'MDY' ? first : second;
+    const day = first > 12 ? first : second > 12 || order === 'MDY' ? second : first;
     return toISODate(year, month, day);
   }
 
@@ -151,7 +151,33 @@ export function parseDate(value: string): ISODate | null {
 }
 
 const EXPIRY_LABEL =
-  /\b(date of expiry|date of expiration|expiration date|expiry date|expires?|expiry|expiration|exp\.?|fecha de vencimiento|fecha de expiracion|vence|valid until|valid through|valid thru|valido hasta|valable jusqu|date d expiration|data de validade|validade)\b/;
+  /\b(date of expiry|date of expiration|expiration date|expiry date|expires?|expiry|expiration|expiracion|exp\.?|fecha de vencimiento|fecha de expiracion|vence|valid until|valid through|valid thru|valido hasta|valable jusqu|date d expiration|data de validade|validade)\b/;
+
+const US_STATES =
+  /\b(alabama|alaska|arizona|arkansas|california|colorado|connecticut|delaware|florida|georgia|hawaii|idaho|illinois|indiana|iowa|kansas|kentucky|louisiana|maine|maryland|massachusetts|michigan|minnesota|mississippi|missouri|montana|nebraska|nevada|new hampshire|new jersey|new mexico|new york|north carolina|north dakota|ohio|oklahoma|oregon|pennsylvania|rhode island|south carolina|south dakota|tennessee|texas|utah|vermont|virginia|washington|west virginia|wisconsin|wyoming)\b/;
+
+function getDateOrder(text: string): 'DMY' | 'MDY' {
+  const normalized = normalizeText(text);
+  if (/\b(?:usa|united states)\b/.test(normalized)) return 'MDY';
+  return US_STATES.test(normalized) && /\b(?:driver license|drivers license|driver s license)\b/.test(normalized)
+    ? 'MDY'
+    : 'DMY';
+}
+
+function normalizeWithEndOffsets(value: string): { text: string; ends: number[] } {
+  let text = '';
+  const ends: number[] = [];
+  let offset = 0;
+  for (const character of value) {
+    offset += character.length;
+    const normalized = character.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[’']/g, ' ');
+    for (const normalizedCharacter of normalized) {
+      text += normalizedCharacter;
+      ends.push(offset);
+    }
+  }
+  return { text, ends };
+}
 
 function mrzLines(lines: string[]): string[] {
   return lines.map((line) => line.toUpperCase().replace(/[^A-Z0-9<]/g, ''));
@@ -203,17 +229,24 @@ function readName(lines: string[]): string | null {
   return surname || givenNames ? normalizedName([givenNames, surname].filter(Boolean).join(' ')) : null;
 }
 
-function readExpirationDate(lines: string[], mrzDate: ISODate | null): ISODate | null {
+function readExpirationDate(
+  lines: string[],
+  mrzDate: ISODate | null,
+  order: 'DMY' | 'MDY',
+): ISODate | null {
   for (let index = 0; index < lines.length; index += 1) {
     const line = lines[index];
     if (!line) continue;
-    const normalizedLine = normalizeText(line);
-    if (!EXPIRY_LABEL.test(normalizedLine)) continue;
+    const { text: normalizedLine, ends } = normalizeWithEndOffsets(line);
+    const expiryLabel = EXPIRY_LABEL.exec(normalizedLine);
+    if (!expiryLabel || expiryLabel.index === undefined) continue;
 
-    const dateOnLine = parseDate(line.replace(EXPIRY_LABEL, ' '));
+    const labelEnd = expiryLabel.index + expiryLabel[0].length;
+    const originalLabelEnd = ends[labelEnd - 1] ?? line.length;
+    const dateOnLine = parseDate(line.slice(originalLabelEnd), order);
     if (dateOnLine) return dateOnLine;
     for (const nextLine of lines.slice(index + 1, index + 3)) {
-      const dateOnNextLine = parseDate(nextLine);
+      const dateOnNextLine = parseDate(nextLine, order);
       if (dateOnNextLine) return dateOnNextLine;
     }
   }
@@ -225,10 +258,11 @@ export function parseScannedDocument(text: string): ScannedDocumentFields {
   const normalized = normalizeText(text);
   const mrz = readMrz(lines);
   const documentType = findDocumentType(normalized)?.documentType ?? (mrz.name ? 'passport' : null);
+  const dateOrder = getDateOrder(normalized);
 
   return {
     documentType: documentType && isDocumentType(documentType) ? documentType : null,
     documentName: mrz.name ?? readName(lines),
-    expirationDate: readExpirationDate(lines, mrz.expirationDate),
+    expirationDate: readExpirationDate(lines, mrz.expirationDate, dateOrder),
   };
 }

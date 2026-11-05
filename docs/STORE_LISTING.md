@@ -26,7 +26,7 @@ Drafts and checklists to prepare the store pages. Review every item against the 
 > • Search, filter and sort all your documents.
 > • Available in English, Spanish, Portuguese and French, with light and dark mode.
 >
-> Private by design: scan or dictate a document to suggest its type, name and expiration date. Text and speech recognition happen on your device; scan images are deleted, audio is not uploaded, and neither is saved. We never store document numbers or photos.
+> Private by design: scan or dictate a document to suggest its type, name and expiration date. Text and speech recognition happen on your device; scan images and raw audio are discarded and never uploaded. Only the fields you review and save are stored with your account. We never store document numbers or photos.
 
 ## Descripción (español)
 
@@ -40,7 +40,7 @@ Drafts and checklists to prepare the store pages. Review every item against the 
 > • Busca, filtra y ordena todos tus documentos.
 > • En español, inglés, portugués y francés, con modo claro y oscuro.
 >
-> Privado desde el diseño: escanea o dicta un documento para sugerir su tipo, nombre y fecha de vencimiento. El reconocimiento de texto y voz se hace en tu dispositivo; las imágenes se eliminan, el audio no se sube y ninguno se guarda. No guardamos números de documento ni fotos.
+> Privado desde el diseño: escanea o dicta un documento para sugerir su tipo, nombre y fecha de vencimiento. El reconocimiento de texto y voz se hace en tu dispositivo; las imágenes y el audio original se descartan y nunca se suben. Solo se guardan en tu cuenta los campos que revisas y decides guardar. No guardamos números de documento ni fotos.
 
 Keywords (iOS, ≤ 100 chars, draft): `expiration,reminder,passport,license,visa,insurance,documents,renewal,expiry,alert`
 
@@ -67,11 +67,11 @@ Data the app handles:
 | Document type, name/owner name, expiration date, notes, reminder settings | Supabase database | App functionality (reminders) | Yes | No |
 | Preferences (language, theme, reminder time) | Device only | App functionality | No (not collected) | No |
 
-The app has **no analytics, no advertising SDKs, no location, no contacts, no photo-library access, no payment data**. The camera and microphone are used only when the user explicitly starts a scan or voice dictation. Temporary scan images and audio are processed on-device and not uploaded or saved to the account.
+The app has **no analytics, no advertising SDKs, no location, no contacts, no photo-library access, no payment data**. The camera and microphone are used only when the user explicitly starts a scan or voice dictation. Temporary scan images, raw audio and the unedited recognition transcript are processed on-device and not uploaded or saved. The user-reviewed document fields are saved to the account only after the user submits the form.
 
-**Apple – App Privacy labels:** Contact Info → Email Address (App Functionality, linked, not used for tracking); Identifiers → User ID (App Functionality, linked); User Content → Other User Content (App Functionality, linked). Data is not used for tracking.
+**Apple – App Privacy labels:** Contact Info → Email Address (App Functionality, linked, not used for tracking); Identifiers → User ID (App Functionality, linked); User Content → Other User Content (App Functionality, linked). Camera images, microphone audio and raw recognition transcripts are processed on-device only and are not collected, linked to the user, or used for tracking; do not report them as collected data. User-reviewed document fields are collected when saved as described above. Data is not used for tracking.
 
-**Google Play – Data safety:** Personal info → Email address (collected, required, app functionality, account management); App info and performance → none; "Other" user content for document details (collected, app functionality). Data is encrypted in transit (HTTPS). Users can request deletion: in-app (Settings → Account) **and** via a public web link — Google Play requires that web link for apps with accounts.
+**Google Play – Data safety:** Personal info → Email address (collected, required, app functionality, account management); App info and performance → none; "Other" user content for document details (collected, app functionality). Camera and microphone permissions are used only for the user-requested on-device scan and dictation. Images, raw audio and unedited recognition transcripts are not transmitted off the device, collected by the app developer, or shared; do not report them as collected or shared data. User-reviewed document fields are collected when saved as described above. Data is encrypted in transit (HTTPS). Users can request deletion: in-app (Settings → Account) **and** via a public web link — Google Play requires that web link for apps with accounts.
 
 ## Other required items
 

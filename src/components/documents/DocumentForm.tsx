@@ -23,6 +23,7 @@ import {
 } from '@/features/documents/validation';
 import { scanDocumentLocally, type DocumentScanFailure } from '@/features/documents/scanDocument';
 import { parseVoiceDocumentRequest } from '@/features/documents/voiceCommandParser';
+import type { ScannedDocumentFields } from '@/features/documents/scanParser';
 import { DEFAULT_FORMATTING_LOCALE, isSupportedLanguage } from '@/i18n/languages';
 import { AppError, toAppError, type AppErrorCode } from '@/lib/errors';
 import { haptics } from '@/lib/haptics';
@@ -92,10 +93,28 @@ export function DocumentForm({
   const voiceTranscriptRef = useRef('');
   const voiceAppliedRef = useRef(false);
   const mountedRef = useRef(false);
+  const valuesRef = useRef(values);
+
+  useEffect(() => {
+    valuesRef.current = values;
+  }, [values]);
 
   const update = <K extends keyof DocumentFormValues>(key: K, value: DocumentFormValues[K]) => {
     const next = { ...values, [key]: value };
     setValues(next);
+    onDirtyChange?.(!sameValues(next, initialValues));
+    if (showErrors) setErrors(validateDocumentForm(next).errors);
+    setSubmitError(null);
+  };
+
+  const applyDetectedFields = (fields: ScannedDocumentFields) => {
+    const detected: Partial<DocumentFormValues> = {};
+    if (fields.documentType) detected.documentType = fields.documentType;
+    if (fields.documentName) detected.documentName = fields.documentName;
+    if (fields.expirationDate) detected.expirationDate = fields.expirationDate;
+
+    const next = { ...valuesRef.current, ...detected };
+    setValues((previous) => ({ ...previous, ...detected }));
     onDirtyChange?.(!sameValues(next, initialValues));
     if (showErrors) setErrors(validateDocumentForm(next).errors);
     setSubmitError(null);
@@ -119,16 +138,7 @@ export function DocumentForm({
         return;
       }
 
-      const next = {
-        ...values,
-        documentType: result.fields.documentType ?? values.documentType,
-        documentName: result.fields.documentName ?? values.documentName,
-        expirationDate: result.fields.expirationDate ?? values.expirationDate,
-      };
-      setValues(next);
-      onDirtyChange?.(!sameValues(next, initialValues));
-      if (showErrors) setErrors(validateDocumentForm(next).errors);
-      setSubmitError(null);
+      applyDetectedFields(result.fields);
       setScanReview(true);
     } catch {
       setScanFailure('cameraFailed');
@@ -150,16 +160,7 @@ export function DocumentForm({
       return;
     }
 
-    const next = {
-      ...values,
-      documentType: fields.documentType ?? values.documentType,
-      documentName: fields.documentName ?? values.documentName,
-      expirationDate: fields.expirationDate ?? values.expirationDate,
-    };
-    setValues(next);
-    onDirtyChange?.(!sameValues(next, initialValues));
-    if (showErrors) setErrors(validateDocumentForm(next).errors);
-    setSubmitError(null);
+    applyDetectedFields(fields);
     setVoiceFailure(null);
     setScanReview(true);
   };
@@ -181,7 +182,11 @@ export function DocumentForm({
     voiceTranscriptRef.current = '';
     voiceAppliedRef.current = false;
     try {
-      const { ExpoSpeechRecognitionModule } = await import('expo-speech-recognition');
+      // Load only after the Expo Go guard because this module requires native code.
+      // eslint-disable-next-line @typescript-eslint/no-require-imports
+      const { ExpoSpeechRecognitionModule } = require('expo-speech-recognition') as {
+        ExpoSpeechRecognitionModule: SpeechRecognitionModule;
+      };
       if (!mountedRef.current) return;
       if (!ExpoSpeechRecognitionModule.isRecognitionAvailable() || !ExpoSpeechRecognitionModule.supportsOnDeviceRecognition()) {
         setVoiceFailure('voiceUnavailableOffline');

@@ -11,6 +11,12 @@
       "ios",
       "android"
     ],
+    "locales": {
+      "en": "./locales/en.json",
+      "es": "./locales/es.json",
+      "pt": "./locales/pt.json",
+      "fr": "./locales/fr.json"
+    },
     "backgroundColor": "#F5F7FA",
     "ios": {
       "deploymentTarget": "15.5",
@@ -84,8 +90,8 @@
       [
         "expo-camera",
         {
-          "cameraPermission": "Permitir que SOS – ExpiryAlert use la cámara para leer el documento en el dispositivo. La imagen se elimina después del escaneo.",
-          "microphonePermission": false,
+          "cameraPermission": "SOS – ExpiryAlert uses the camera to scan documents on-device. Scanned images are deleted and never uploaded.",
+          "microphonePermission": "SOS – ExpiryAlert uses the microphone only when you dictate a document. Audio is processed on-device and never uploaded.",
           "recordAudioAndroid": false,
           "barcodeScannerEnabled": false
         }
@@ -112,17 +118,12 @@
       [
         "expo-speech-recognition",
         {
-          "microphonePermission": "SOS – ExpiryAlert usa el micrófono solo cuando dictas un documento. El audio se procesa en el dispositivo y no se sube.",
-          "speechRecognitionPermission": "SOS – ExpiryAlert usa el reconocimiento de voz en el dispositivo para completar los datos de un documento."
+          "microphonePermission": "SOS – ExpiryAlert uses the microphone only when you dictate a document. Audio is processed on-device and never uploaded.",
+          "speechRecognitionPermission": "SOS – ExpiryAlert uses on-device speech recognition to fill in document details. Your speech is never uploaded."
         }
       ]
     ],
     "extra": {
-      "router": {
-        "asyncRoutes": {
-          "web": true
-        }
-      },
       "eas": {
         "projectId": "d8ba289e-8fd0-4c55-9c3a-cb77f44bf3c1"
       }

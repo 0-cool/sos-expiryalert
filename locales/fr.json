@@ -1,0 +1,7 @@
+{
+  "ios": {
+    "NSCameraUsageDescription": "SOS – ExpiryAlert utilise l’appareil photo pour numériser les documents sur l’appareil. Les images sont supprimées et jamais envoyées.",
+    "NSMicrophoneUsageDescription": "SOS – ExpiryAlert utilise le microphone uniquement lorsque vous dictez un document. L’audio est traité sur l’appareil et jamais envoyé.",
+    "NSSpeechRecognitionUsageDescription": "SOS – ExpiryAlert utilise la reconnaissance vocale sur l’appareil pour remplir les informations du document. Votre voix n’est jamais envoyée."
+  }
+}

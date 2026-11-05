@@ -1,0 +1,7 @@
+{
+  "ios": {
+    "NSCameraUsageDescription": "SOS – ExpiryAlert usa la cámara para escanear documentos en el dispositivo. Las imágenes se eliminan y nunca se suben.",
+    "NSMicrophoneUsageDescription": "SOS – ExpiryAlert usa el micrófono solo cuando dictas un documento. El audio se procesa en el dispositivo y nunca se sube.",
+    "NSSpeechRecognitionUsageDescription": "SOS – ExpiryAlert usa el reconocimiento de voz en el dispositivo para completar los datos del documento. Tu voz nunca se sube."
+  }
+}

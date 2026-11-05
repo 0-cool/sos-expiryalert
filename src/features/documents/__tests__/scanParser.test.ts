@@ -53,4 +53,44 @@ describe("parseScannedDocument", () => {
       documentType: "national_id",
     });
   });
+
+  it("uses the date after the expiration label when the line also has an issue date", () => {
+    expect(parseScannedDocument("Expedición 01/02/2022 Vence 01/02/2028")).toMatchObject({
+      expirationDate: "2028-02-01",
+    });
+    expect(
+      parseScannedDocument("Date of issue 05/03/2021 Date of expiry 05/03/2031"),
+    ).toMatchObject({
+      expirationDate: "2031-03-05",
+    });
+  });
+
+  it("reads an expiration date from the next line and normalizes accented uppercase labels", () => {
+    expect(parseScannedDocument("FECHA DE VENCIMIENTO\n15/11/2030")).toMatchObject({
+      expirationDate: "2030-11-15",
+    });
+    expect(parseScannedDocument("EXPIRACIÓN: 10/10/2029")).toMatchObject({
+      expirationDate: "2029-10-10",
+    });
+  });
+
+  it("uses month-first order for clear US documents and day-first otherwise", () => {
+    expect(parseScannedDocument("USA DRIVER LICENSE\nEXP 05/11/2030")).toMatchObject({
+      documentType: "drivers_license",
+      expirationDate: "2030-05-11",
+    });
+    expect(parseScannedDocument("LICENCIA DE CONDUCIR\nVence: 05/11/2030")).toMatchObject({
+      expirationDate: "2030-11-05",
+    });
+    expect(parseScannedDocument("Vence: 25/11/2030")).toMatchObject({
+      expirationDate: "2030-11-25",
+    });
+  });
+
+  it("uses month-first order for a US state and driver license label", () => {
+    expect(parseScannedDocument("California Driver License\nEXP 05/11/2030")).toMatchObject({
+      documentType: "drivers_license",
+      expirationDate: "2030-05-11",
+    });
+  });
 });

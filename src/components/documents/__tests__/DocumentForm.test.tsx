@@ -1,4 +1,27 @@
-import { fireEvent, render, screen } from '@testing-library/react-native';
+import { act, fireEvent, render, screen } from '@testing-library/react-native';
+
+const mockSpeechListeners = new Map<string, (event: never) => void>();
+
+jest.mock('expo', () => ({
+  ...jest.requireActual('expo'),
+  isRunningInExpoGo: jest.fn(() => false),
+}));
+
+jest.mock('expo-speech-recognition', () => ({
+  ExpoSpeechRecognitionModule: {
+    isRecognitionAvailable: jest.fn(() => true),
+    supportsOnDeviceRecognition: jest.fn(() => true),
+    getSupportedLocales: jest.fn(async () => ({ locales: ['en-US'], installedLocales: ['en-US'] })),
+    requestPermissionsAsync: jest.fn(async () => ({ granted: true })),
+    addListener: jest.fn((name: string, listener: (event: never) => void) => {
+      mockSpeechListeners.set(name, listener);
+      return { remove: jest.fn() };
+    }),
+    start: jest.fn(() => mockSpeechListeners.get('start')?.(null as never)),
+    stop: jest.fn(),
+    abort: jest.fn(),
+  },
+}));
 
 import { DocumentForm } from '@/components/documents/DocumentForm';
 import type { DocumentFormValues } from '@/features/documents/validation';
@@ -89,6 +112,30 @@ describe('<DocumentForm />', () => {
     expect(screen.getByText('Speech is recognized on this device only; audio is not uploaded. Say the document type, owner name and expiration date. Review the suggestions before saving. Your device needs the matching offline speech language.')).toBeTruthy();
     expect(screen.getByText('Remind me')).toBeTruthy();
     expect(screen.getByText('Notes')).toBeTruthy();
+  });
+
+  it('preserves notes entered while dictating and applies the recognized document fields', async () => {
+    mockSpeechListeners.clear();
+    const onSubmit = await renderForm(empty, undefined, true);
+
+    await fireEvent.press(screen.getByTestId('document-form-voice'));
+    expect(await screen.findByText('Stop listening')).toBeTruthy();
+    await fireEvent.changeText(screen.getByTestId('document-notes-input'), 'Renew at the consulate');
+    await act(async () => {
+      mockSpeechListeners.get('result')?.({
+        isFinal: true,
+        results: [{ transcript: 'Add my passport, John Smith, expiring December 22, 2026' }],
+      } as never);
+    });
+    await fireEvent.press(screen.getByTestId('document-form-submit'));
+
+    expect(onSubmit).toHaveBeenCalledWith({
+      documentType: 'passport',
+      documentName: 'John Smith',
+      expirationDate: '2026-12-22',
+      notes: 'Renew at the consulate',
+      reminderDays: [90, 30, 7, 1],
+    });
   });
 
   it('shows the reminder time and the "past date" hint', async () => {
