@@ -4,15 +4,15 @@ Drafts and checklists to prepare the store pages. Review every item against the 
 
 ## Identity
 
-| Field | Value (draft) |
-| --- | --- |
-| App name | SOS – ExpiryAlert |
-| Subtitle (iOS, ≤ 30 chars) | Document expiration reminders |
+| Field                                | Value (draft)                                                              |
+| ------------------------------------ | -------------------------------------------------------------------------- |
+| App name                             | SOS – ExpiryAlert                                                          |
+| Subtitle (iOS, ≤ 30 chars)           | Document expiration reminders                                              |
 | Short description (Play, ≤ 80 chars) | Remember when passports, licenses and insurance expire. Private by design. |
-| Category | Productivity (alternative: Utilities) |
-| Age rating | 4+ / Everyone (no user-generated public content, no ads, no purchases) |
-| Bundle ID / package | Set your own in `app.json` (currently `com.yourcompany.sosexpiryalert`) |
-| Price | Free (no in-app purchases in the MVP) |
+| Category                             | Productivity (alternative: Utilities)                                      |
+| Age rating                           | 4+ / Everyone (no user-generated public content, no ads, no purchases)     |
+| Bundle ID / package                  | Set your own in `app.json` (currently `com.soscompany.expiryalert`)        |
+| Price                                | Free (no in-app purchases in the MVP)                                      |
 
 ## Description (English)
 
@@ -60,12 +60,12 @@ Keywords (iOS, ≤ 100 chars, draft): `expiration,reminder,passport,license,visa
 
 Data the app handles:
 
-| Data | Where | Purpose | Linked to user | Tracking |
-| --- | --- | --- | --- | --- |
-| Email address | Supabase Auth | Account creation and login | Yes | No |
-| User ID | Supabase | Associate documents with the account | Yes | No |
-| Document type, name/owner name, expiration date, notes, reminder settings | Supabase database | App functionality (reminders) | Yes | No |
-| Preferences (language, theme, reminder time) | Device only | App functionality | No (not collected) | No |
+| Data                                                                      | Where             | Purpose                              | Linked to user     | Tracking |
+| ------------------------------------------------------------------------- | ----------------- | ------------------------------------ | ------------------ | -------- |
+| Email address                                                             | Supabase Auth     | Account creation and login           | Yes                | No       |
+| User ID                                                                   | Supabase          | Associate documents with the account | Yes                | No       |
+| Document type, name/owner name, expiration date, notes, reminder settings | Supabase database | App functionality (reminders)        | Yes                | No       |
+| Preferences (language, theme, reminder time)                              | Device only       | App functionality                    | No (not collected) | No       |
 
 The app has **no analytics, no advertising SDKs, no location, no contacts, no photo-library access, no payment data**. The camera and microphone are used only when the user explicitly starts a scan or voice dictation. Temporary scan images, raw audio and the unedited recognition transcript are processed on-device and not uploaded or saved. The user-reviewed document fields are saved to the account only after the user submits the form.
 

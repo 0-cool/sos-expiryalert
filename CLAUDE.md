@@ -152,7 +152,7 @@ docs/               TESTING.md (checklist en dispositivo), STORE_LISTING.md, PRI
    - agregar `{{ .Token }}` a las plantillas _Confirm signup_ y _Reset password_;
    - configurar SMTP propio antes de tener usuarios reales.
 3. Probar en iPhone y Android con Expo Go siguiendo `docs/TESTING.md` y corregir lo que aparezca.
-4. Cambiar `com.yourcompany.sosexpiryalert` en `app.json`. Luego:
+4. Cambiar `com.soscompany.expiryalert` en `app.json`. Luego:
    - `eas init`;
    - variables con `eas env:create` (el `.env` local no se sube a EAS);
    - build `preview`.

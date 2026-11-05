@@ -14,8 +14,8 @@ The app intentionally stores **only** a document type, a name you choose, the ex
 
 1. Instala [Node.js LTS](https://nodejs.org) y, en tu teléfono, la app **Expo Go** (App Store o Google Play).
 2. Crea un proyecto en [Supabase](https://supabase.com), abre **SQL Editor** y ejecuta el archivo `supabase/migrations/20261104120000_create_documents.sql`.
-3. En Supabase → **Authentication → Email Templates**, agrega `{{ .Token }}` a las plantillas *Confirm signup* y *Reset password* (ver [Supabase setup](#3-supabase-setup)).
-4. Copia `.env.example` como `.env` y pega la URL del proyecto y la clave *publishable*.
+3. En Supabase → **Authentication → Email Templates**, agrega `{{ .Token }}` a las plantillas _Confirm signup_ y _Reset password_ (ver [Supabase setup](#3-supabase-setup)).
+4. Copia `.env.example` como `.env` y pega la URL del proyecto y la clave _publishable_.
 5. En la carpeta del proyecto: `npm install` y luego `npx expo start`.
 6. Escanea el código QR: con la cámara en iPhone, o desde Expo Go en Android. Para probar el escáner de documentos, crea e instala el development build descrito en la sección 2.
 
@@ -44,18 +44,18 @@ Para publicar en las tiendas, sigue [Production builds](#8-production-builds-eas
 
 ## 1. Features
 
-| Area | What's included |
-| --- | --- |
-| Onboarding | 3 short slides + notification "priming" screen that explains reminders before the native permission dialog. |
-| Authentication | Sign up, log in, email verification with a one-time code, password recovery with a one-time code, logout, account deletion (Supabase Auth). |
-| Dashboard | Total documents, animated status breakdown (active / expiring soon / expired), expired alert, upcoming expirations, prominent **Add document** action, empty state, offline banner, "reminders are off" banner. |
-| Documents | Search (accent-insensitive, matches translated type names), status filters with counts, sort by expiration date, swipe-to-delete with confirmation, pull to refresh. |
-| Add / edit | Type picker (one tap), name, native date picker, reminder chips, optional notes, inline validation, privacy guard that warns if text looks like an ID number, unsaved-changes guard. On-device scan or voice dictation suggests the type, name and expiration date when adding a document; temporary scan images are deleted and speech is not uploaded. |
-| Details | Days remaining, status, expiration date, reminder schedule with dates, notes, edit, delete, configure reminders. |
-| Notifications | Local notifications (no push server), default 90/30/7/1 days, per-document custom reminders, configurable time of day, "hide details on lock screen" option, test notification, tap to open the document. |
-| Settings | Language (system / EN / ES / PT / FR), theme (system / light / dark), notification preferences, privacy information, account management, delete account, logout. |
-| Offline | The last loaded documents are cached on the device; the app opens and reminders keep working without a connection. Changes require a connection and say so clearly. |
-| Quality | TypeScript strict, ESLint, 150+ unit/component tests (Jest), 22 database tests for RLS and constraints on a real PostgreSQL (PGlite). |
+| Area           | What's included                                                                                                                                                                                                                                                                                                                                          |
+| -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Onboarding     | 3 short slides + notification "priming" screen that explains reminders before the native permission dialog.                                                                                                                                                                                                                                              |
+| Authentication | Sign up, log in, email verification with a one-time code, password recovery with a one-time code, logout, account deletion (Supabase Auth).                                                                                                                                                                                                              |
+| Dashboard      | Total documents, animated status breakdown (active / expiring soon / expired), expired alert, upcoming expirations, prominent **Add document** action, empty state, offline banner, "reminders are off" banner.                                                                                                                                          |
+| Documents      | Search (accent-insensitive, matches translated type names), status filters with counts, sort by expiration date, swipe-to-delete with confirmation, pull to refresh.                                                                                                                                                                                     |
+| Add / edit     | Type picker (one tap), name, native date picker, reminder chips, optional notes, inline validation, privacy guard that warns if text looks like an ID number, unsaved-changes guard. On-device scan or voice dictation suggests the type, name and expiration date when adding a document; temporary scan images are deleted and speech is not uploaded. |
+| Details        | Days remaining, status, expiration date, reminder schedule with dates, notes, edit, delete, configure reminders.                                                                                                                                                                                                                                         |
+| Notifications  | Local notifications (no push server), default 90/30/7/1 days, per-document custom reminders, configurable time of day, "hide details on lock screen" option, test notification, tap to open the document.                                                                                                                                                |
+| Settings       | Language (system / EN / ES / PT / FR), theme (system / light / dark), notification preferences, privacy information, account management, delete account, logout.                                                                                                                                                                                         |
+| Offline        | The last loaded documents are cached on the device; the app opens and reminders keep working without a connection. Changes require a connection and say so clearly.                                                                                                                                                                                      |
+| Quality        | TypeScript strict, ESLint, 150+ unit/component tests (Jest), 22 database tests for RLS and constraints on a real PostgreSQL (PGlite).                                                                                                                                                                                                                    |
 
 Not included on purpose (MVP scope): saved document photos, push notifications from a server, family sharing, paywall. The architecture leaves room for subscriptions (see `src/features/plans/plans.ts`).
 
@@ -83,15 +83,15 @@ npx expo start
 
 ### Useful scripts
 
-| Command | What it does |
-| --- | --- |
-| `npm start` | Start the Expo dev server (QR code for Expo Go). |
-| `npm run ios` / `npm run android` | Start and open the iOS simulator / Android emulator. |
-| `npm run typecheck` | TypeScript strict type check. |
-| `npm run lint` | ESLint (`expo lint`). |
-| `npm test` | Jest unit + component tests. |
-| `npm run test:db` | Database tests (migration, RLS, constraints, account deletion) on PGlite. |
-| `npm run verify` | All of the above in sequence. |
+| Command                           | What it does                                                              |
+| --------------------------------- | ------------------------------------------------------------------------- |
+| `npm start`                       | Start the Expo dev server (QR code for Expo Go).                          |
+| `npm run ios` / `npm run android` | Start and open the iOS simulator / Android emulator.                      |
+| `npm run typecheck`               | TypeScript strict type check.                                             |
+| `npm run lint`                    | ESLint (`expo lint`).                                                     |
+| `npm test`                        | Jest unit + component tests.                                              |
+| `npm run test:db`                 | Database tests (migration, RLS, constraints, account deletion) on PGlite. |
+| `npm run verify`                  | All of the above in sequence.                                             |
 
 ## 3. Supabase setup
 
@@ -130,8 +130,14 @@ In **Authentication → Email Templates**, the app verifies emails and resets pa
 
   ```html
   <h2>Your SOS – ExpiryAlert code</h2>
-  <p>Enter this code in the app to verify your email: <strong>{{ .Token }}</strong></p>
-  <p>Or confirm with this link: <a href="{{ .ConfirmationURL }}">Confirm my email</a></p>
+  <p>
+    Enter this code in the app to verify your email:
+    <strong>{{ .Token }}</strong>
+  </p>
+  <p>
+    Or confirm with this link:
+    <a href="{{ .ConfirmationURL }}">Confirm my email</a>
+  </p>
   ```
 
 - **Reset password** — add for example:
@@ -165,10 +171,10 @@ EXPO_PUBLIC_SUPABASE_URL=https://<project-ref>.supabase.co
 EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY=sb_publishable_...
 ```
 
-| Variable | Required | Notes |
-| --- | --- | --- |
-| `EXPO_PUBLIC_SUPABASE_URL` | Yes | Supabase project URL. |
-| `EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | Yes | Publishable/anon key. `EXPO_PUBLIC_SUPABASE_ANON_KEY` is accepted as a fallback name. |
+| Variable                               | Required | Notes                                                                                 |
+| -------------------------------------- | -------- | ------------------------------------------------------------------------------------- |
+| `EXPO_PUBLIC_SUPABASE_URL`             | Yes      | Supabase project URL.                                                                 |
+| `EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | Yes      | Publishable/anon key. `EXPO_PUBLIC_SUPABASE_ANON_KEY` is accepted as a fallback name. |
 
 `EXPO_PUBLIC_*` values are embedded in the app bundle (they are public by design). Data protection comes from Row Level Security, not from hiding these values. `.env` is git-ignored.
 
@@ -215,15 +221,15 @@ EAS gives you a link to download and install the `.apk` directly on any Android 
 npm run verify     # typecheck + lint + unit/component tests + database tests
 ```
 
-| Suite | Covers |
-| --- | --- |
-| `src/lib/__tests__/dates.test.ts` | Leap years, impossible dates, day arithmetic, DST transitions (tests run in `America/New_York`), picker date conversion. |
-| `src/features/documents/__tests__/*` | Status calculation and thresholds, form validation, privacy guard, search/filter/sort, dashboard stats. |
-| `src/features/notifications/__tests__/*` | Reminder planning (past reminders, expired docs, leap days, 60-item cap, deterministic ids), schedule diffing (no duplicates, cancel on delete, reschedule on date change), permission handling, notification text in several languages. |
-| `src/i18n/__tests__/*` | Every locale has exactly the English keys, no empty strings, same interpolation variables, all required plural forms; language detection & fallback; localized date formats. |
-| `src/features/settings/__tests__/*` | Preference sanitising and persistence across restarts. |
-| `src/components/documents/__tests__/DocumentForm.test.tsx` | Validation messages, submitted payload, privacy warning, past-date hint. |
-| `supabase/tests/rls.test.mjs` | Real migration on PostgreSQL (PGlite): schema has no sensitive columns, RLS isolation between users, anon has no access, constraints, `updated_at`, account deletion. |
+| Suite                                                      | Covers                                                                                                                                                                                                                                   |
+| ---------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `src/lib/__tests__/dates.test.ts`                          | Leap years, impossible dates, day arithmetic, DST transitions (tests run in `America/New_York`), picker date conversion.                                                                                                                 |
+| `src/features/documents/__tests__/*`                       | Status calculation and thresholds, form validation, privacy guard, search/filter/sort, dashboard stats.                                                                                                                                  |
+| `src/features/notifications/__tests__/*`                   | Reminder planning (past reminders, expired docs, leap days, 60-item cap, deterministic ids), schedule diffing (no duplicates, cancel on delete, reschedule on date change), permission handling, notification text in several languages. |
+| `src/i18n/__tests__/*`                                     | Every locale has exactly the English keys, no empty strings, same interpolation variables, all required plural forms; language detection & fallback; localized date formats.                                                             |
+| `src/features/settings/__tests__/*`                        | Preference sanitising and persistence across restarts.                                                                                                                                                                                   |
+| `src/components/documents/__tests__/DocumentForm.test.tsx` | Validation messages, submitted payload, privacy warning, past-date hint.                                                                                                                                                                 |
+| `supabase/tests/rls.test.mjs`                              | Real migration on PostgreSQL (PGlite): schema has no sensitive columns, RLS isolation between users, anon has no access, constraints, `updated_at`, account deletion.                                                                    |
 
 A manual QA checklist for real iPhone and Android devices is in [`docs/TESTING.md`](docs/TESTING.md).
 
@@ -236,8 +242,8 @@ eas init                          # links the project and writes the projectId i
 ```
 
 1. **Set your identifiers** in `app.json` (they can't change after publishing):
-   - `expo.ios.bundleIdentifier` — e.g. `com.yourcompany.sosexpiryalert`
-   - `expo.android.package` — e.g. `com.yourcompany.sosexpiryalert`
+   - `expo.ios.bundleIdentifier` — e.g. `com.soscompany.expiryalert`
+   - `expo.android.package` — e.g. `com.soscompany.expiryalert`
 2. **Add the environment variables to EAS** (once per environment):
 
    ```bash
@@ -246,6 +252,7 @@ eas init                          # links the project and writes the projectId i
    ```
 
    Repeat with `--environment preview` for test builds.
+
 3. **Build:**
 
    ```bash
@@ -254,6 +261,7 @@ eas init                          # links the project and writes the projectId i
    ```
 
    EAS manages signing certificates and keystores for you. No Mac is required.
+
 4. **Submit:**
 
    ```bash
@@ -263,10 +271,10 @@ eas init                          # links the project and writes the projectId i
 
 Profiles in `eas.json`:
 
-| Profile | Use |
-| --- | --- |
-| `preview` | Internal testing. Android produces an installable `.apk`; iOS produces an ad-hoc build for registered devices. |
-| `production` | Store builds with auto-incremented build numbers (`appVersionSource: remote`). |
+| Profile      | Use                                                                                                            |
+| ------------ | -------------------------------------------------------------------------------------------------------------- |
+| `preview`    | Internal testing. Android produces an installable `.apk`; iOS produces an ad-hoc build for registered devices. |
+| `production` | Store builds with auto-incremented build numbers (`appVersionSource: remote`).                                 |
 
 ## 9. Architecture
 
@@ -309,21 +317,21 @@ Key decisions:
 
 ### Database schema
 
-| Column | Type | Notes |
-| --- | --- | --- |
-| `id` | `uuid` | PK, `gen_random_uuid()` |
-| `user_id` | `uuid` | FK → `auth.users`, `on delete cascade`, defaults to `auth.uid()` |
-| `document_type` | `text` | One of 10 allowed values |
-| `document_name` | `text` | 1–80 chars. Friendly name or owner name, never a number |
-| `expiration_date` | `date` | 1900-01-01 … 2200-12-31 |
-| `notes` | `text` | Optional, ≤ 500 chars |
-| `reminder_days` | `smallint[]` | Subset of {0, 1, 3, 7, 14, 30, 60, 90, 180}, default {90, 30, 7, 1} |
-| `created_at`, `updated_at` | `timestamptz` | `updated_at` maintained by trigger |
+| Column                     | Type          | Notes                                                               |
+| -------------------------- | ------------- | ------------------------------------------------------------------- |
+| `id`                       | `uuid`        | PK, `gen_random_uuid()`                                             |
+| `user_id`                  | `uuid`        | FK → `auth.users`, `on delete cascade`, defaults to `auth.uid()`    |
+| `document_type`            | `text`        | One of 10 allowed values                                            |
+| `document_name`            | `text`        | 1–80 chars. Friendly name or owner name, never a number             |
+| `expiration_date`          | `date`        | 1900-01-01 … 2200-12-31                                             |
+| `notes`                    | `text`        | Optional, ≤ 500 chars                                               |
+| `reminder_days`            | `smallint[]`  | Subset of {0, 1, 3, 7, 14, 30, 60, 90, 180}, default {90, 30, 7, 1} |
+| `created_at`, `updated_at` | `timestamptz` | `updated_at` maintained by trigger                                  |
 
 ## 10. How reminders work
 
 - Reminders are **local notifications** scheduled on the device with `expo-notifications` — no push server, no device tokens.
-- Each reminder fires *N* days before the expiration date at the user's chosen time (default 09:00 local time). Date math uses calendar days, so leap years and daylight-saving changes are handled correctly.
+- Each reminder fires _N_ days before the expiration date at the user's chosen time (default 09:00 local time). Date math uses calendar days, so leap years and daylight-saving changes are handled correctly.
 - Every reminder has a **deterministic identifier** (document, offset, time, text). Syncing compares what is scheduled with what should be scheduled, cancels stale ones and adds missing ones — so there are never duplicates, deleted documents lose their reminders, and changed dates are rescheduled.
 - iOS keeps at most **64** pending local notifications per app. The app schedules the **60 soonest** and tops up the window every time the app opens or data changes.
 - Sync runs when documents, reminder settings, language or permission change, and every time the app comes to the foreground. Logging out or deleting the account cancels all reminders on the device.
@@ -353,7 +361,7 @@ Key decisions:
 
 ## 13. Remaining tasks before App Store and Google Play submission
 
-- [ ] Replace placeholder identifiers in `app.json` (`com.yourcompany.sosexpiryalert`) with your own, then run `eas init`.
+- [ ] Replace placeholder identifiers in `app.json` (`com.soscompany.expiryalert`) with your own, then run `eas init`.
 - [ ] Replace the placeholder icon/splash artwork in `assets/` (generated from `assets/brand/icon.svg`) with final branding, keeping the same sizes (1024×1024; Android notification icon 96×96 white on transparent).
 - [ ] Configure custom SMTP and the email templates in Supabase (section 3).
 - [ ] Publish a privacy policy at a public URL (template in `docs/PRIVACY_POLICY_TEMPLATE.md`) and add it to both stores.
@@ -367,12 +375,12 @@ Key decisions:
 
 ## 14. Troubleshooting
 
-| Problem | Fix |
-| --- | --- |
-| "Setup required" banner on the login screen | `.env` is missing or invalid. Restart `npx expo start` after editing `.env` (use `-c` to clear the cache). |
-| Sign-up email never arrives | Configure custom SMTP (section 3.3); check spam; wait for the resend timer. |
-| "This code is invalid or has expired" | Make sure the email template contains `{{ .Token }}` and use the newest code. |
-| Phone can't connect to the dev server | Same Wi-Fi network, or `npx expo start --tunnel`. |
-| No notifications | Settings → Notifications in the app: check the permission status and send a test notification. On Android also check the "Expiration reminders" channel in system settings. |
-| Expo Go says the project uses a different SDK | Update Expo Go from the store; this project uses SDK 58. |
-| Local native builds fail on Windows with paths containing spaces | Expo Go and EAS cloud builds are unaffected. For `npx expo run:android`, move the project to a path without spaces (e.g. `C:\dev\sos-expiryalert`). |
+| Problem                                                          | Fix                                                                                                                                                                         |
+| ---------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| "Setup required" banner on the login screen                      | `.env` is missing or invalid. Restart `npx expo start` after editing `.env` (use `-c` to clear the cache).                                                                  |
+| Sign-up email never arrives                                      | Configure custom SMTP (section 3.3); check spam; wait for the resend timer.                                                                                                 |
+| "This code is invalid or has expired"                            | Make sure the email template contains `{{ .Token }}` and use the newest code.                                                                                               |
+| Phone can't connect to the dev server                            | Same Wi-Fi network, or `npx expo start --tunnel`.                                                                                                                           |
+| No notifications                                                 | Settings → Notifications in the app: check the permission status and send a test notification. On Android also check the "Expiration reminders" channel in system settings. |
+| Expo Go says the project uses a different SDK                    | Update Expo Go from the store; this project uses SDK 58.                                                                                                                    |
+| Local native builds fail on Windows with paths containing spaces | Expo Go and EAS cloud builds are unaffected. For `npx expo run:android`, move the project to a path without spaces (e.g. `C:\dev\sos-expiryalert`).                         |

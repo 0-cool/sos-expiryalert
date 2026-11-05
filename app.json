@@ -7,10 +7,7 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",
-    "platforms": [
-      "ios",
-      "android"
-    ],
+    "platforms": ["ios", "android"],
     "locales": {
       "en": "./locales/en.json",
       "es": "./locales/es.json",
@@ -20,7 +17,7 @@
     "backgroundColor": "#F5F7FA",
     "ios": {
       "deploymentTarget": "15.5",
-      "bundleIdentifier": "com.yourcompany.sosexpiryalert",
+      "bundleIdentifier": "com.soscompany.expiryalert",
       "buildNumber": "1",
       "supportsTablet": false,
       "config": {
@@ -28,26 +25,19 @@
       },
       "infoPlist": {
         "CFBundleAllowMixedLocalizations": true,
-        "CFBundleLocalizations": [
-          "en",
-          "es",
-          "pt",
-          "fr"
-        ]
+        "CFBundleLocalizations": ["en", "es", "pt", "fr"]
       },
       "privacyManifests": {
         "NSPrivacyAccessedAPITypes": [
           {
             "NSPrivacyAccessedAPIType": "NSPrivacyAccessedAPICategoryUserDefaults",
-            "NSPrivacyAccessedAPITypeReasons": [
-              "CA92.1"
-            ]
+            "NSPrivacyAccessedAPITypeReasons": ["CA92.1"]
           }
         ]
       }
     },
     "android": {
-      "package": "com.yourcompany.sosexpiryalert",
+      "package": "com.soscompany.expiryalert",
       "versionCode": 1,
       "adaptiveIcon": {
         "backgroundColor": "#0B2447",
@@ -107,12 +97,7 @@
       [
         "expo-localization",
         {
-          "supportedLocales": [
-            "en",
-            "es",
-            "pt",
-            "fr"
-          ]
+          "supportedLocales": ["en", "es", "pt", "fr"]
         }
       ],
       [
