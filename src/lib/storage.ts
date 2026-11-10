@@ -61,4 +61,5 @@ export const STORAGE_KEYS = {
   preferences: 'sos.preferences.v1',
   onboardingComplete: 'sos.onboarding-complete.v1',
   documentsCachePrefix: 'sos.documents-cache.v1.',
+  subscriptionProPrefix: 'sos.subscription-pro.v1.',
 } as const;
