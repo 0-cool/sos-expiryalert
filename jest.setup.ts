@@ -31,7 +31,11 @@ jest.mock('react-native-purchases', () => {
     addCustomerInfoUpdateListener: jest.fn(),
     removeCustomerInfoUpdateListener: jest.fn(),
   };
-  return { __esModule: true, default: purchases };
+  return {
+    __esModule: true,
+    default: purchases,
+    PACKAGE_TYPE: { MONTHLY: 'MONTHLY', SIX_MONTH: 'SIX_MONTH' },
+  };
 });
 
 jest.mock('expo-haptics', () => ({

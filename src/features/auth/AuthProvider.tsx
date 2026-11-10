@@ -5,6 +5,7 @@ import { env, type SupabaseConfigProblem } from '@/lib/env';
 import { supabase } from '@/lib/supabase/client';
 
 import * as authService from './authService';
+import * as purchasesService from '@/features/subscription/purchasesService';
 
 interface AuthContextValue {
   /** False until the persisted session has been read on launch. */
@@ -34,6 +35,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
   const [isRecovering, setIsRecovering] = useState(false);
   const mounted = useRef(true);
+  const previousPurchasesUserId = useRef<string | null>(null);
+  const purchasesIdentityUpdates = useRef(Promise.resolve());
 
   useEffect(() => {
     mounted.current = true;
@@ -61,6 +64,25 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       data.subscription.unsubscribe();
     };
   }, []);
+
+  useEffect(() => {
+    const nextUserId = session?.user.id ?? null;
+    const previousUserId = previousPurchasesUserId.current;
+    if (nextUserId === previousUserId) return;
+    previousPurchasesUserId.current = nextUserId;
+
+    purchasesIdentityUpdates.current = purchasesIdentityUpdates.current
+      .then(async () => {
+        if (nextUserId) {
+          if (purchasesService.configure()) await purchasesService.logIn(nextUserId);
+        } else if (previousUserId) {
+          await purchasesService.logOut();
+        }
+      })
+      .catch((error: unknown) => {
+        console.error('[subscription] Failed to update RevenueCat user identity', error);
+      });
+  }, [session?.user.id]);
 
   const resetPassword = useCallback(async (email: string, code: string, newPassword: string) => {
     setIsRecovering(true);
