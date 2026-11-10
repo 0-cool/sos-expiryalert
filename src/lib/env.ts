@@ -66,6 +66,9 @@ export const env: AppEnv = resolveEnv(
   process.env.EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY ?? process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY,
 );
 
+export const revenueCatIosKey = (process.env.EXPO_PUBLIC_REVENUECAT_IOS_KEY ?? '').trim();
+export const revenueCatAndroidKey = (process.env.EXPO_PUBLIC_REVENUECAT_ANDROID_KEY ?? '').trim();
+
 if (__DEV__ && env.supabaseProblem === 'secret-key') {
   console.error(
     '[SOS ExpiryAlert] A secret/service_role Supabase key was provided. ' +

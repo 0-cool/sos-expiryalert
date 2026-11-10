@@ -19,6 +19,21 @@ jest.mock('expo-sqlite/kv-store', () => {
 
 jest.mock('expo-sqlite/localStorage/install', () => ({}));
 
+jest.mock('react-native-purchases', () => {
+  const purchases = {
+    configure: jest.fn(),
+    getOfferings: jest.fn(),
+    getCustomerInfo: jest.fn(),
+    purchasePackage: jest.fn(),
+    restorePurchases: jest.fn(),
+    logIn: jest.fn(),
+    logOut: jest.fn(),
+    addCustomerInfoUpdateListener: jest.fn(),
+    removeCustomerInfoUpdateListener: jest.fn(),
+  };
+  return { __esModule: true, default: purchases };
+});
+
 jest.mock('expo-haptics', () => ({
   selectionAsync: jest.fn(async () => undefined),
   notificationAsync: jest.fn(async () => undefined),
